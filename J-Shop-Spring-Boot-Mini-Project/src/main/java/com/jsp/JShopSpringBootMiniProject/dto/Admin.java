@@ -1,9 +1,12 @@
 package com.jsp.JShopSpringBootMiniProject.dto;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 
 @Entity
 public class Admin {
@@ -14,6 +17,9 @@ public class Admin {
 	private String adminName;
 	private String adminEmail;
 	private String adminPassword;
+	
+	@ManyToMany
+	private List<ProductOwner> owners;
 	
 	public int getAdminId() {
 		return adminId;
@@ -39,15 +45,22 @@ public class Admin {
 	public void setAdminPassword(String adminPassword) {
 		this.adminPassword = adminPassword;
 	}
-	public Admin(int adminId, String adminName, String adminEmail, String adminPassword) {
+	
+	public List<ProductOwner> getOwners() {
+		return owners;
+	}
+	public void setOwners(List<ProductOwner> owners) {
+		this.owners = owners;
+	}
+	
+	public Admin(int adminId, String adminName, String adminEmail, String adminPassword, List<ProductOwner> owners) {
 		super();
 		this.adminId = adminId;
 		this.adminName = adminName;
 		this.adminEmail = adminEmail;
 		this.adminPassword = adminPassword;
+		this.owners = owners;
 	}
-	
-	
 	public Admin() {
 		
 	}

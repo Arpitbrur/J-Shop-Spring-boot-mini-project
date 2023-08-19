@@ -7,6 +7,7 @@ public class ResponseStructure<T> {
 
 	private int statusCode;
 	private String msg;
+	private String description;
 	private T data;
 	
 	public int getStatusCode() {
@@ -20,6 +21,13 @@ public class ResponseStructure<T> {
 	}
 	public void setMsg(String msg) {
 		this.msg = msg;
+	}
+	
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	public T getData() {
 		return data;

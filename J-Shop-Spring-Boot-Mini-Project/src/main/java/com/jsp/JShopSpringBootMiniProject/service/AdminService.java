@@ -110,12 +110,14 @@ public class AdminService {
 				
 				responseStructure.setStatusCode(HttpStatus.ACCEPTED.value());
 				responseStructure.setMsg("login successfully");
+				responseStructure.setDescription("Congratulation please login");
 				responseStructure.setData(admin);
 				return responseStructure;
 			
 			}else {
 				responseStructure.setStatusCode(HttpStatus.NOT_FOUND.value());
 				responseStructure.setMsg("not login please check your password");
+				responseStructure.setDescription("your password should be 8 character alongwith 1 lowerCase, 1 upperCase, special character(!@#$*&%), 1 number");
 				responseStructure.setData(null);
 				return responseStructure;
 			}
@@ -123,6 +125,7 @@ public class AdminService {
 	   }else {
 		   responseStructure.setStatusCode(HttpStatus.NOT_FOUND.value());
 		   responseStructure.setMsg("not login please check your email");
+		   responseStructure.setDescription("your email should contain atleast alphabets number @hfh.com");
 		   responseStructure.setData(null);
 		   return responseStructure;
 	   }
