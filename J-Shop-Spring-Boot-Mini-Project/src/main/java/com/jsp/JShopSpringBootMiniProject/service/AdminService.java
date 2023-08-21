@@ -1,5 +1,7 @@
 package com.jsp.JShopSpringBootMiniProject.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.jsp.JShopSpringBootMiniProject.dao.AdminDao;
 import com.jsp.JShopSpringBootMiniProject.dto.Admin;
+import com.jsp.JShopSpringBootMiniProject.dto.ProductOwner;
 import com.jsp.JShopSpringBootMiniProject.responseStructure.ResponseStructure;
 
 import jakarta.servlet.http.HttpSession;
@@ -24,6 +27,9 @@ public class AdminService {
 	
 	@Autowired
 	private HttpSession httpSession;
+	
+	@Autowired
+	private ResponseStructure<ProductOwner> responseStructure2;
 	
 	//Email Validation---------------------------------------------------------------------
 	public String validationEmail(String email) {
@@ -131,5 +137,43 @@ public class AdminService {
 	   }
 		
 		
+	}
+	
+	// getAllProductOwnerAdmin-----------------------------------------------------------------
+	public List<ProductOwner> getAllProductOwnerAdmin() {
+		List<ProductOwner> owners = new ArrayList<ProductOwner>();
+		
+		for (ProductOwner productOwner : adminDao.getAllProductOwnerAdmin()) {
+			if(productOwner.getAdminVerify().equalsIgnoreCase("no")) {
+				owners.add(productOwner);
+			}
+		}
+		return owners;
+	}
+	
+	//getProductOwnerByIdAdmin-----------------------------------------------------------------
+	public ResponseStructure<ProductOwner> getProductOwnerByIdAdmin(int productOwnerId) {
+		
+		ProductOwner owner= adminDao.getProductOwnerByIdAdmin(productOwnerId);
+		if(owner != null) {
+			if(httpSession.getAttribute("password")!= null){
+				httpSession.setMaxInactiveInterval(20);
+				responseStructure2.setStatusCode(HttpStatus.ACCEPTED.value());
+				responseStructure2.setMsg("Successfully");
+				responseStructure2.setDescription("please find your data");
+				responseStructure2.setData(owner);
+			}else {
+				responseStructure2.setStatusCode(HttpStatus.NOT_ACCEPTABLE.value());
+				responseStructure2.setMsg("your session is logout");
+				responseStructure2.setDescription("please login again");
+				responseStructure2.setData(null);
+			}
+		}else {
+			responseStructure2.setStatusCode(HttpStatus.NOT_ACCEPTABLE.value());
+			responseStructure2.setMsg("productOwner is not present");
+			responseStructure2.setDescription("##########################################");
+			responseStructure2.setData(null);
+		}
+		return responseStructure2;
 	}	
 }

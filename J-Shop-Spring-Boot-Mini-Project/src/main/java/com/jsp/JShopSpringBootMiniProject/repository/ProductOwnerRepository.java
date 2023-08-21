@@ -6,4 +6,6 @@ import com.jsp.JShopSpringBootMiniProject.dto.ProductOwner;
 
 public interface ProductOwnerRepository extends JpaRepository<ProductOwner, Integer>{
 
+	
+	public ProductOwner findByProductOwnerEmail(String email);
 }
