@@ -2,11 +2,14 @@ package com.jsp.JShopSpringBootMiniProject.dto;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Admin {
@@ -18,8 +21,10 @@ public class Admin {
 	private String adminEmail;
 	private String adminPassword;
 	
-	@ManyToMany
+	@OneToMany(mappedBy = "admins")
+	@JsonIgnore
 	private List<ProductOwner> owners;
+	
 	
 	public int getAdminId() {
 		return adminId;
@@ -45,7 +50,6 @@ public class Admin {
 	public void setAdminPassword(String adminPassword) {
 		this.adminPassword = adminPassword;
 	}
-	
 	public List<ProductOwner> getOwners() {
 		return owners;
 	}

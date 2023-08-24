@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -47,4 +48,9 @@ public class AdminController {
 		return adminService.getProductOwnerByIdAdmin(productOwnerId);
 	}	
 	
+	// Verify Product Owner from no to yes  and UnVarified from yes to no----------------------
+	@PutMapping("/verifyProductOwner/{productOwnerId}")
+	public ResponseStructure<ProductOwner> verifyProductOwner(@PathVariable int productOwnerId) {
+		return adminService.verifyProductOwner(productOwnerId);
+	}	
 }

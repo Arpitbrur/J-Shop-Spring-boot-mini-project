@@ -112,7 +112,7 @@ public class AdminService {
 			
 			if(admin.getAdminPassword().equals(password) && (admin.getAdminEmail().equals(adminEmail))) {
 				httpSession.setAttribute("password", admin.getAdminPassword());
-				httpSession.setMaxInactiveInterval(120);
+				httpSession.setMaxInactiveInterval(20);
 				
 				responseStructure.setStatusCode(HttpStatus.ACCEPTED.value());
 				responseStructure.setMsg("login successfully");
@@ -157,7 +157,7 @@ public class AdminService {
 		ProductOwner owner= adminDao.getProductOwnerByIdAdmin(productOwnerId);
 		if(owner != null) {
 			if(httpSession.getAttribute("password")!= null){
-				httpSession.setMaxInactiveInterval(20);
+//				httpSession.setMaxInactiveInterval(20);
 				responseStructure2.setStatusCode(HttpStatus.ACCEPTED.value());
 				responseStructure2.setMsg("Successfully");
 				responseStructure2.setDescription("please find your data");
@@ -172,6 +172,35 @@ public class AdminService {
 			responseStructure2.setStatusCode(HttpStatus.NOT_ACCEPTABLE.value());
 			responseStructure2.setMsg("productOwner is not present");
 			responseStructure2.setDescription("##########################################");
+			responseStructure2.setData(null);
+		}
+		return responseStructure2;
+	}	
+	
+	// Verify Product Owner from no to yes  and UnVarified from yes to no----------------------
+	public ResponseStructure<ProductOwner> verifyProductOwner(int productOwnerId) {
+		
+		ProductOwner productOwner = adminDao.getProductOwnerByIdAdmin(productOwnerId);
+		
+		if(productOwner != null) {
+			if(httpSession.getAttribute("password") != null) {
+				ProductOwner owner = adminDao.verifyProductOwner(productOwnerId);
+				
+				responseStructure2.setStatusCode(HttpStatus.ACCEPTED.value());
+				responseStructure2.setMsg("Success");
+				responseStructure2.setDescription("product-Owner is verfied Succefully");
+				responseStructure2.setData(owner);
+				
+			}else {
+				responseStructure2.setStatusCode(HttpStatus.NOT_ACCEPTABLE.value());
+				responseStructure2.setMsg("Your session is logout");
+				responseStructure2.setDescription("please login again");
+				responseStructure2.setData(null);
+			}
+		}else {
+			responseStructure2.setStatusCode(HttpStatus.NOT_ACCEPTABLE.value());
+			responseStructure2.setMsg("productOwner is not present");
+			responseStructure2.setDescription("#######################################");
 			responseStructure2.setData(null);
 		}
 		return responseStructure2;

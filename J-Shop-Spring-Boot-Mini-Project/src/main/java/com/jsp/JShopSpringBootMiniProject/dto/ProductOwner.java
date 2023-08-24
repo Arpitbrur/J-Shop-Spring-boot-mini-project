@@ -1,11 +1,10 @@
 package com.jsp.JShopSpringBootMiniProject.dto;
 
-import java.util.List;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class ProductOwner {
@@ -22,8 +21,9 @@ public class ProductOwner {
 	@Column(name= "Verify")
 	private String adminVerify;
 	
-	@ManyToMany(mappedBy = "owners")
-	private List<Admin> admins;
+	@ManyToOne
+	@JoinColumn(name = "adminid")
+	private Admin admins;
 	
 	public int getProductOwnerId() {
 		return productOwnerId;
@@ -56,10 +56,10 @@ public class ProductOwner {
 	public void setAdminVerify(String adminVerify) {
 		this.adminVerify = adminVerify;
 	}
-	public List<Admin> getAdmins() {
+	public Admin getAdmins() {
 		return admins;
 	}
-	public void setAdmins(List<Admin> admins) {
+	public void setAdmins(Admin admins) {
 		this.admins = admins;
 	}
 	
