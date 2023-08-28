@@ -31,6 +31,10 @@ public class AdminService {
 	@Autowired
 	private ResponseStructure<ProductOwner> responseStructure2;
 	
+	@Autowired
+	private ResponseStructure<List<ProductOwner>> responseStructure3;
+	
+	
 	//Email Validation---------------------------------------------------------------------
 	public String validationEmail(String email) {
 		
@@ -87,11 +91,13 @@ public class AdminService {
 			
 			responseStructure.setStatusCode(HttpStatus.ACCEPTED.value());
 			responseStructure.setMsg("Admin-Registered Successfully");
+			responseStructure.setDescription("congratulation---Please--Login");
 			responseStructure.setData(admin1);
 			return responseStructure;
 		}else {
 			responseStructure.setStatusCode(HttpStatus.NOT_ACCEPTABLE.value());
 			responseStructure.setMsg("check your password ");
+			responseStructure.setDescription("your password length should be 8 character along with 1 lower case,1 upperCase,atleast 1 special Character(!@#$*&%),1 number");
 			responseStructure.setData(null);
 			return responseStructure;
 		}
@@ -99,6 +105,7 @@ public class AdminService {
 		}else {
 			responseStructure.setStatusCode(HttpStatus.NOT_ACCEPTABLE.value());
 			responseStructure.setMsg("Check your email");
+			responseStructure.setDescription("your email should contain atleast alphabetnumber@gmail.com");
 			responseStructure.setData(null);
 			return responseStructure;
 		}
@@ -116,23 +123,20 @@ public class AdminService {
 				
 				responseStructure.setStatusCode(HttpStatus.ACCEPTED.value());
 				responseStructure.setMsg("login successfully");
-				responseStructure.setDescription("Congratulation please login");
-				responseStructure.setData(admin);
+				responseStructure.setDescription("you have logged in....please perform your operation");
 				return responseStructure;
 			
 			}else {
 				responseStructure.setStatusCode(HttpStatus.NOT_FOUND.value());
 				responseStructure.setMsg("not login please check your password");
-				responseStructure.setDescription("your password should be 8 character alongwith 1 lowerCase, 1 upperCase, special character(!@#$*&%), 1 number");
-				responseStructure.setData(null);
+				responseStructure.setDescription("please checck your password...and type correctly");
 				return responseStructure;
 			}
 			
 	   }else {
 		   responseStructure.setStatusCode(HttpStatus.NOT_FOUND.value());
 		   responseStructure.setMsg("not login please check your email");
-		   responseStructure.setDescription("your email should contain atleast alphabets number @hfh.com");
-		   responseStructure.setData(null);
+		   responseStructure.setDescription("your email should contain atleast alphabetsNumber@gmail.com");
 		   return responseStructure;
 	   }
 		
@@ -140,16 +144,29 @@ public class AdminService {
 	}
 	
 	// getAllProductOwnerAdmin-----------------------------------------------------------------
-	public List<ProductOwner> getAllProductOwnerAdmin() {
+	public ResponseStructure<List<ProductOwner>> getAllProductOwnerAdmin() {
 		List<ProductOwner> owners = new ArrayList<ProductOwner>();
 		
-		for (ProductOwner productOwner : adminDao.getAllProductOwnerAdmin()) {
-			if(productOwner.getAdminVerify().equalsIgnoreCase("no")) {
-				owners.add(productOwner);
+		if(httpSession.getAttribute("password") != null) {
+			for (ProductOwner productOwner : adminDao.getAllProductOwnerAdmin()) {
+				if(productOwner.getAdminVerify().equalsIgnoreCase("no")) {
+					owners.add(productOwner);
+				}
 			}
+			responseStructure3.setStatusCode(HttpStatus.ACCEPTED.value());
+			responseStructure3.setMsg("Success");
+			responseStructure3.setDescription("please find your data below....");
+			responseStructure3.setData(owners);
+		}else {
+			responseStructure3.setStatusCode(HttpStatus.NOT_ACCEPTABLE.value());
+			responseStructure3.setMsg("Your session is  logout ");
+			responseStructure3.setDescription("please login again");
+			responseStructure3.setData(null);
 		}
-		return owners;
+		return responseStructure3;
+		
 	}
+	
 	
 	//getProductOwnerByIdAdmin-----------------------------------------------------------------
 	public ResponseStructure<ProductOwner> getProductOwnerByIdAdmin(int productOwnerId) {
@@ -157,7 +174,6 @@ public class AdminService {
 		ProductOwner owner= adminDao.getProductOwnerByIdAdmin(productOwnerId);
 		if(owner != null) {
 			if(httpSession.getAttribute("password")!= null){
-//				httpSession.setMaxInactiveInterval(20);
 				responseStructure2.setStatusCode(HttpStatus.ACCEPTED.value());
 				responseStructure2.setMsg("Successfully");
 				responseStructure2.setDescription("please find your data");

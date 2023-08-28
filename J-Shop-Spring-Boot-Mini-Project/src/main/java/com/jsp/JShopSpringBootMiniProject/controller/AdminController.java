@@ -38,7 +38,7 @@ public class AdminController {
 	
 	// getAllProductOwnerAdmin-----------------------------------------------------------------
 	@GetMapping("/getAllProductOwner")
-	public List<ProductOwner> getAllProductOwnerAdmin() {
+	public ResponseStructure<List<ProductOwner>> getAllProductOwnerAdmin() {
 		return adminService.getAllProductOwnerAdmin();
 	}	
 	

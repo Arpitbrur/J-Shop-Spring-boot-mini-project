@@ -1,6 +1,5 @@
 package com.jsp.JShopSpringBootMiniProject.dao;
 
-import java.lang.StackWalker.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,6 +11,16 @@ import com.jsp.JShopSpringBootMiniProject.repository.ProductOwnerRepository;
 @Repository
 public class ProductOwnerDao {
 
+	int productOwnerId=0;
+	
+	public int getProductOwnerId() {
+		return productOwnerId;
+	}
+
+	public void setProductOwnerId(int productOwnerId) {
+		this.productOwnerId = productOwnerId;
+	}
+	
 	@Autowired
 	private ProductOwnerRepository ownerRepository;
 	
@@ -24,7 +33,12 @@ public class ProductOwnerDao {
 	
 	// getProductOwnerByEmail-------------------------------------------------------------------
 	public ProductOwner getProductOwnerEmail(String email) {
-		return ownerRepository.findByProductOwnerEmail(email);
+		ProductOwner owner = ownerRepository.findByProductOwnerEmail(email);
+		
+		if(owner != null) {
+			setProductOwnerId(owner.getProductOwnerId());
+		}
+		return owner;
 	}
 	
 	//getAllProductOwner--------------------------------------------------------------------------
