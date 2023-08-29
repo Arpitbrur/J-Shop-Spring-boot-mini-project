@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jsp.JShopSpringBootMiniProject.dto.Admin;
+import com.jsp.JShopSpringBootMiniProject.dto.Product;
 import com.jsp.JShopSpringBootMiniProject.dto.ProductOwner;
 import com.jsp.JShopSpringBootMiniProject.responseStructure.ResponseStructure;
 import com.jsp.JShopSpringBootMiniProject.service.AdminService;
@@ -52,5 +53,11 @@ public class AdminController {
 	@PutMapping("/verifyProductOwner/{productOwnerId}")
 	public ResponseStructure<ProductOwner> verifyProductOwner(@PathVariable int productOwnerId) {
 		return adminService.verifyProductOwner(productOwnerId);
+	}	
+	
+	// verify Product details By id-----------------------------------------------------------------
+	@PutMapping("/verifyProductDetailsByAdmin/{productId}")
+	public ResponseStructure<Product> verifyProductDetailsByAdmin(@PathVariable int productId) {
+		return adminService.verifyProductDetailsByAdmin(productId);
 	}	
 }

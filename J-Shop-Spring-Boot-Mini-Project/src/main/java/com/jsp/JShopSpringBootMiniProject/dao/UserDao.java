@@ -16,4 +16,14 @@ public class UserDao {
 	public User insertuser(User user) {
 		return userRepository.save(user);
 	}
+	
+	// login User----------------------------------------------------------------------
+	public User loginUser(String email)
+	{
+		User user = userRepository.findByUserEmail(email);
+		if(user!=null) {		
+			return user;
+		}
+		return null;
+	}
 }

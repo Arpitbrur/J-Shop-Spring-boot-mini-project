@@ -7,9 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.jsp.JShopSpringBootMiniProject.dto.Admin;
+import com.jsp.JShopSpringBootMiniProject.dto.Product;
 import com.jsp.JShopSpringBootMiniProject.dto.ProductOwner;
 import com.jsp.JShopSpringBootMiniProject.repository.AdminRepository;
 import com.jsp.JShopSpringBootMiniProject.repository.ProductOwnerRepository;
+import com.jsp.JShopSpringBootMiniProject.repository.ProductRepository;
 
 /**
  * 
@@ -30,6 +32,13 @@ public class AdminDao {
 	
 	@Autowired
 	private ProductOwnerRepository ownerRepository;
+	
+	@Autowired
+	private ProductDao productDao;
+	
+	@Autowired
+	private ProductRepository productRepository;
+	
 	
 	//Sign up code for insert Admin----------------------------------------------------------
 	public Admin insertAdmin(Admin admin) {
@@ -81,5 +90,21 @@ public class AdminDao {
 		}
 		return productOwner;
 	
+	}
+	
+	// verify Product details By id-----------------------------------------------------------------
+	public Product verifyProductDetailsByAdmin(int productId) {
+		
+		Product product = productDao.getProductDataById(productId);
+		
+		if(product != null) {
+			if(product.getProductVerified().equalsIgnoreCase("no")) {
+				product.setProductVerified("yes");
+			}else {
+				product.setProductVerified("no");
+			}
+		}
+		productRepository.save(product);
+		return product;
 	}
 }

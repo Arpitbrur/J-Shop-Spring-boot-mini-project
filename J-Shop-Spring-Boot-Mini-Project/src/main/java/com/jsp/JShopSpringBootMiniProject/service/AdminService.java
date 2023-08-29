@@ -10,7 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.jsp.JShopSpringBootMiniProject.dao.AdminDao;
+import com.jsp.JShopSpringBootMiniProject.dao.ProductDao;
 import com.jsp.JShopSpringBootMiniProject.dto.Admin;
+import com.jsp.JShopSpringBootMiniProject.dto.Product;
 import com.jsp.JShopSpringBootMiniProject.dto.ProductOwner;
 import com.jsp.JShopSpringBootMiniProject.responseStructure.ResponseStructure;
 
@@ -33,6 +35,12 @@ public class AdminService {
 	
 	@Autowired
 	private ResponseStructure<List<ProductOwner>> responseStructure3;
+	
+	@Autowired
+	private ProductDao productDao;
+	
+	@Autowired
+	private ResponseStructure<Product> responseStructure4;
 	
 	
 	//Email Validation---------------------------------------------------------------------
@@ -124,12 +132,14 @@ public class AdminService {
 				responseStructure.setStatusCode(HttpStatus.ACCEPTED.value());
 				responseStructure.setMsg("login successfully");
 				responseStructure.setDescription("you have logged in....please perform your operation");
+				responseStructure.setData(admin);
 				return responseStructure;
 			
 			}else {
 				responseStructure.setStatusCode(HttpStatus.NOT_FOUND.value());
 				responseStructure.setMsg("not login please check your password");
 				responseStructure.setDescription("please checck your password...and type correctly");
+				responseStructure.setData(null);
 				return responseStructure;
 			}
 			
@@ -221,4 +231,35 @@ public class AdminService {
 		}
 		return responseStructure2;
 	}	
+	
+	// verify Product details By id-----------------------------------------------------------------
+	public ResponseStructure<Product> verifyProductDetailsByAdmin(int productId) {
+		
+		Product product=productDao.getProductDataById(productId);
+		
+		if(product!=null) {
+			
+			if (httpSession.getAttribute("password") != null) {
+
+				Product product2 = adminDao.verifyProductDetailsByAdmin(productId);
+				responseStructure4.setStatusCode(HttpStatus.ACCEPTED.value());
+				responseStructure4.setMsg("Success");
+				responseStructure4.setDescription("product is verified successfully");
+				responseStructure4.setData(product2);
+			} else {
+				responseStructure4.setStatusCode(HttpStatus.NOT_ACCEPTABLE.value());
+				responseStructure4.setMsg("Your session is  logout ");
+				responseStructure4.setDescription("please login again");
+				responseStructure4.setData(null);
+			}
+			
+		}else {
+			responseStructure4.setStatusCode(HttpStatus.NOT_ACCEPTABLE.value());
+			responseStructure4.setMsg("given id is not present");
+			responseStructure4.setDescription("please check once");
+			responseStructure4.setData(null);
+		}
+		return responseStructure4;
+	}
+		
 }
