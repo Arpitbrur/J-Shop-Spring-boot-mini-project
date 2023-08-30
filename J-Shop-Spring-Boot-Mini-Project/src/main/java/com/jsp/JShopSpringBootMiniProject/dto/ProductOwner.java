@@ -27,7 +27,7 @@ public class ProductOwner {
 	private String adminVerify;
 	
 	@ManyToOne
-	@JoinColumn(name = "adminid")
+	@JoinColumn(name = "adminId")
 	private Admin admins;
 	
 	@OneToMany(mappedBy = "productOwner")

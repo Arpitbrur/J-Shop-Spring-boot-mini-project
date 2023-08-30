@@ -18,7 +18,7 @@ public class Product {
 	
 	
 	@ManyToOne
-	@JoinColumn(name ="ownerid")
+	@JoinColumn(name ="ownerId")
 	private ProductOwner productOwner;
 
 

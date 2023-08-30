@@ -26,6 +26,7 @@ public class Admin {
 	private List<ProductOwner> owners;
 	
 	
+	
 	public int getAdminId() {
 		return adminId;
 	}
