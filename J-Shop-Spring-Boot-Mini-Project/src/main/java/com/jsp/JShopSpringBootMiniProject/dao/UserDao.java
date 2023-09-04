@@ -10,6 +10,17 @@ import com.jsp.JShopSpringBootMiniProject.repository.UserRepository;
 public class UserDao {
 
 	@Autowired
+	private User user;
+	
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	@Autowired
 	private UserRepository userRepository;
 	
 	// insert User-----------------------------------------------------------------------
@@ -21,7 +32,8 @@ public class UserDao {
 	public User loginUser(String email)
 	{
 		User user = userRepository.findByUserEmail(email);
-		if(user!=null) {		
+		if(user!=null) {
+			setUser(user);
 			return user;
 		}
 		return null;

@@ -2,12 +2,17 @@ package com.jsp.JShopSpringBootMiniProject.dto;
 
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
+@Component
 @Table(name ="users")
 public class User {
 
@@ -19,6 +24,7 @@ public class User {
 	private String userPassword;
 	
 	@OneToMany(mappedBy = "user")
+	@JsonIgnore
 	private List<UserCart> userCarts;
 
 	public int getUserId() {
@@ -68,7 +74,7 @@ public class User {
 	public void setUserCarts(List<UserCart> userCarts) {
 		this.userCarts = userCarts;
 	}
-	
+
 	
 	
 }

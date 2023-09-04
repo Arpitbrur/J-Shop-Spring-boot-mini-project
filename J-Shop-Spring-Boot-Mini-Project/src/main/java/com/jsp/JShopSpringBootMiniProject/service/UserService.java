@@ -24,6 +24,8 @@ public class UserService {
 	
 	@Autowired
 	private HttpSession httpSession;
+	
+	
 	// insert User-----------------------------------------------------------------------
 	public ResponseStructure<User> insertuser(User user) {
 		

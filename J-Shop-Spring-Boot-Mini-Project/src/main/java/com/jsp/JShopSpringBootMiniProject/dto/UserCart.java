@@ -1,5 +1,7 @@
 package com.jsp.JShopSpringBootMiniProject.dto;
 
+import org.springframework.stereotype.Component;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -9,6 +11,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 
 @Entity
+@Component
 public class UserCart {
 
 	@Id
@@ -55,6 +58,7 @@ public class UserCart {
 	public void setProduct(Product product) {
 		this.product = product;
 	}
-	
+
+		
 	
 }
